@@ -1,73 +1,94 @@
 /*
- * HIGH BUSINESS — About Section
- * Design: White background, centred video placeholder, 75vh min height
- * Scroll-reveal on entry
+ * HIGH BUSINESS — About / Ethos Section
+ * Design: Apple product page — white bg, centered 960px max-width
+ * - Eyebrow: "OUR ETHOS" uppercase
+ * - Heading: section-heading style, #004225
+ * - Video placeholder: #f0f7f3 bg, 20px border-radius, green play button
+ * - No body text below video
+ * - Padding: 80px top and bottom
  */
 
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
+const INTER = "'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif";
+
 export default function AboutSection() {
-  const { ref: sectionRef, visible } = useScrollReveal();
+  const { ref, visible } = useScrollReveal();
 
   return (
     <section
       id="about"
-      className="bg-white"
-      style={{ minHeight: "75vh", display: "flex", alignItems: "center" }}
+      style={{
+        background: "#ffffff",
+        padding: "80px 20px",
+      }}
     >
-      <div className="container py-24 w-full">
-        <div
-          ref={sectionRef}
-          className={`text-center reveal ${visible ? "visible" : ""}`}
+      <div
+        ref={ref}
+        className={`reveal ${visible ? "visible" : ""}`}
+        style={{
+          maxWidth: "960px",
+          margin: "0 auto",
+          textAlign: "left",
+        }}
+      >
+        {/* Eyebrow */}
+        <span className="eyebrow" style={{ marginBottom: "16px" }}>Our Ethos</span>
+
+        {/* Heading */}
+        <h2
+          className="section-heading"
+          style={{ marginBottom: "48px" }}
         >
-          {/* Eyebrow */}
-          <span className="eyebrow">Our Ethos</span>
+          Who Is High Business?
+        </h2>
 
-          {/* Headline */}
-          <h2
-            className="mt-4 mb-10 text-4xl sm:text-5xl font-700 text-[#111111]"
-            style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}
+        {/* Video placeholder */}
+        <div
+          style={{
+            width: "100%",
+            aspectRatio: "16 / 9",
+            background: "#f0f7f3",
+            borderRadius: "20px",
+            border: "0.5px solid rgba(0,66,37,0.1)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "16px",
+            overflow: "hidden",
+          }}
+        >
+          {/* Green play button */}
+          <div
+            style={{
+              width: "64px",
+              height: "64px",
+              borderRadius: "50%",
+              background: "#004225",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexShrink: 0,
+            }}
           >
-            Who Is High Business?
-          </h2>
-
-          {/* Video placeholder */}
-          <div className="relative max-w-3xl mx-auto rounded-2xl overflow-hidden bg-[#F0F0EE] shadow-[0_4px_32px_rgba(0,66,37,0.08)]" style={{ aspectRatio: '16/9' }}>
-            {/* Placeholder content */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-              {/* Play button */}
-              <div className="w-20 h-20 rounded-full bg-[#004225] flex items-center justify-center shadow-xl cursor-pointer hover:bg-[#005a32] transition-colors duration-200 group">
-                <svg
-                  className="w-8 h-8 text-white ml-1 group-hover:scale-110 transition-transform duration-200"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </div>
-              <p
-                className="text-[#444444] text-sm"
-                style={{ fontFamily: "'DM Sans', sans-serif" }}
-              >
-                Our story — coming soon
-              </p>
-            </div>
-
-            {/* Subtle texture overlay */}
-            <div
-              className="absolute inset-0 opacity-30"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23004225' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-              }}
-            />
+            {/* Triangle */}
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path d="M7 4.5L18 11L7 17.5V4.5Z" fill="white" />
+            </svg>
           </div>
 
-          {/* Brief description below video */}
           <p
-            className="mt-8 text-[#555555] text-lg max-w-2xl mx-auto leading-relaxed"
-            style={{ fontFamily: "'DM Sans', sans-serif" }}
+            style={{
+              fontFamily: INTER,
+              fontSize: "13px",
+              fontWeight: 500,
+              color: "rgba(0,66,37,0.45)",
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
+            }}
           >
-            High Business is a Sydney-based chartered accounting firm built for ambitious Australian businesses. We combine deep technical expertise with a genuine passion for helping our clients grow, thrive, and build something they're proud of.
+            Our story — coming soon
           </p>
         </div>
       </div>

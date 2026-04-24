@@ -1,46 +1,35 @@
 /*
  * HIGH BUSINESS — Clients Section
- * Design: Off-white background, two cards side by side
- * Card 1 (ideal): green icon accent, positive framing
- * Card 2 (not a fit): neutral/amber icon, honest framing
- * No coloured borders per brief
+ * Design: Apple-style full-bleed rounded cards
+ * - Page background: #ffffff
+ * - "Clients who thrive with us" card: #FFCC01 bg, 24px radius, 52px 44px padding
+ * - "Who needs a different solution" card: #f5f5f7 bg, same radius/padding
+ * - 2-column grid, gap 12px, margin 0 20px
+ * - No shadows, no border decorations
+ * - Bullet dots: 5px filled circle — green (#004225) for ideal, muted rgba(0,0,0,0.2) for other
+ * - Heading: left-justified, section-heading style
  */
 
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
-const IDEAL_TRAITS = [
-  "Turnover between $300k and $1M",
-  "Up to 2 employees",
-  "Want fixed, predictable fees",
-  "Committed to excellence and growth",
-  "Minimum fee $6,600 per year",
+const INTER = "'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif";
+
+const IDEAL_ITEMS = [
+  "Turnover between $300k and $5M",
+  "Ambitious to grow and scale",
+  "Values a proactive, strategic accountant",
+  "Wants clean books and clear cashflow visibility",
+  "Ready to invest in their business infrastructure",
+  "Prefers fixed fees and transparent pricing",
 ];
 
-const NOT_FIT_TRAITS = [
-  "Turnover below $300k",
-  "Not GST Registered",
-  "Not focused on business growth",
-  "Prefer variable or hourly accounting fees",
-  "Not looking to improve business processes",
+const NOT_FIT_ITEMS = [
+  "Turnover under $300k",
+  "Looking for the cheapest option",
+  "Needs only a once-a-year tax return",
+  "Not open to business advice or process improvement",
+  "Prefers to manage their own books without support",
 ];
-
-function CheckIcon({ color }: { color: string }) {
-  return (
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" className="flex-shrink-0 mt-0.5">
-      <circle cx="9" cy="9" r="9" fill={color} fillOpacity="0.12" />
-      <path d="M5.5 9l2.5 2.5 4.5-5" stroke={color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function CrossIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" className="flex-shrink-0 mt-0.5">
-      <circle cx="9" cy="9" r="9" fill="#888888" fillOpacity="0.1" />
-      <path d="M6 6l6 6M12 6l-6 6" stroke="#888888" strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
-  );
-}
 
 export default function ClientsSection() {
   const { ref, visible } = useScrollReveal();
@@ -48,96 +37,194 @@ export default function ClientsSection() {
   return (
     <section
       id="clients"
-      className="bg-[#F7F7F5]"
-      style={{ minHeight: "50vh", display: "flex", alignItems: "center" }}
+      style={{
+        background: "#ffffff",
+        padding: "80px 0",
+      }}
     >
-      <div className="container py-24 w-full">
+      <div className="container">
         {/* Header */}
         <div
           ref={ref}
-          className={`text-center mb-14 reveal ${visible ? "visible" : ""}`}
+          className={`reveal ${visible ? "visible" : ""}`}
+          style={{ marginBottom: "48px" }}
         >
-          <span className="eyebrow">Clients</span>
-          <h2
-            className="mt-4 mb-4 text-4xl sm:text-5xl font-700 text-[#111111]"
-            style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}
-          >
+          <span className="eyebrow" style={{ marginBottom: "16px" }}>Clients</span>
+          <h2 className="section-heading" style={{ marginBottom: "16px" }}>
             Who We Work With
           </h2>
           <p
-            className="text-[#555555] text-lg max-w-xl mx-auto"
-            style={{ fontFamily: "'DM Sans', sans-serif" }}
+            style={{
+              fontFamily: INTER,
+              fontSize: "17px",
+              color: "#6e6e73",
+              lineHeight: 1.6,
+              maxWidth: "560px",
+            }}
           >
             We do our best work with the right clients — here's how to know if that's you.
           </p>
         </div>
 
-        {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-          {/* Card 1 — Ideal client */}
-          <div className="bg-white rounded-2xl p-8 shadow-sm card-lift">
-            {/* Icon heading */}
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-9 h-9 rounded-full bg-[#004225]/10 flex items-center justify-center flex-shrink-0">
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                  <path d="M9 2l1.8 3.6 4 .6-2.9 2.8.7 4L9 11l-3.6 1.9.7-4L3.2 6.2l4-.6L9 2z" fill="#004225" />
-                </svg>
-              </div>
-              <h3
-                className="text-xl font-600 text-[#111111]"
-                style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600 }}
-              >
-                Clients who thrive with us
-              </h3>
-            </div>
-
-            <span className="gold-rule" />
-
-            <ul className="space-y-3 mt-4">
-              {IDEAL_TRAITS.map((trait) => (
-                <li key={trait} className="flex items-start gap-3">
-                  <CheckIcon color="#004225" />
+        {/* Cards grid */}
+        <div
+          style={{
+            }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-3"
+        >
+          {/* Ideal client card — yellow */}
+          <div
+            style={{
+              background: "#FFCC01",
+              borderRadius: "24px",
+              padding: "52px 44px",
+              opacity: visible ? 1 : 0,
+              transform: visible ? "translateY(0)" : "translateY(24px)",
+              transition: "opacity 0.6s cubic-bezier(0.16,1,0.3,1) 0.1s, transform 0.6s cubic-bezier(0.16,1,0.3,1) 0.1s",
+            }}
+          >
+            <span
+              style={{
+                fontFamily: INTER,
+                fontSize: "12px",
+                fontWeight: 600,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                color: "#7a5f00",
+                display: "block",
+                marginBottom: "12px",
+              }}
+            >
+              Clients who thrive with us
+            </span>
+            <h3
+              style={{
+                fontFamily: INTER,
+                fontSize: "clamp(24px, 3vw, 36px)",
+                fontWeight: 600,
+                letterSpacing: "-0.02em",
+                color: "#004225",
+                marginBottom: "20px",
+                lineHeight: 1.1,
+              }}
+            >
+              Built for ambitious<br />business owners.
+            </h3>
+            <p
+              style={{
+                fontFamily: INTER,
+                fontSize: "15px",
+                color: "rgba(0,66,37,0.65)",
+                lineHeight: 1.6,
+                marginBottom: "24px",
+              }}
+            >
+              We work best with established, growth-minded businesses that want more than just compliance.
+            </p>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "10px" }}>
+              {IDEAL_ITEMS.map((item) => (
+                <li
+                  key={item}
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: "10px",
+                    fontFamily: INTER,
+                    fontSize: "15px",
+                    color: "rgba(0,66,37,0.8)",
+                    lineHeight: 1.5,
+                  }}
+                >
                   <span
-                    className="text-[#333333] text-sm leading-relaxed"
-                    style={{ fontFamily: "'DM Sans', sans-serif" }}
-                  >
-                    {trait}
-                  </span>
+                    style={{
+                      width: "5px",
+                      height: "5px",
+                      borderRadius: "50%",
+                      background: "#004225",
+                      flexShrink: 0,
+                      marginTop: "8px",
+                    }}
+                  />
+                  {item}
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Card 2 — Not a fit */}
-          <div className="bg-white rounded-2xl p-8 shadow-sm card-lift">
-            {/* Icon heading */}
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-9 h-9 rounded-full bg-[#888888]/10 flex items-center justify-center flex-shrink-0">
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                  <circle cx="9" cy="9" r="7" stroke="#888888" strokeWidth="1.5" />
-                  <path d="M9 5v5M9 12.5v.5" stroke="#888888" strokeWidth="1.5" strokeLinecap="round" />
-                </svg>
-              </div>
-              <h3
-                className="text-xl font-600 text-[#111111]"
-                style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600 }}
-              >
-                Who needs a different solution
-              </h3>
-            </div>
-
-            <div className="gold-rule" style={{ backgroundColor: "#CCCCCC" }} />
-
-            <ul className="space-y-3 mt-4">
-              {NOT_FIT_TRAITS.map((trait) => (
-                <li key={trait} className="flex items-start gap-3">
-                  <CrossIcon />
+          {/* Not a fit card — light grey */}
+          <div
+            style={{
+              background: "#f5f5f7",
+              borderRadius: "24px",
+              padding: "52px 44px",
+              opacity: visible ? 1 : 0,
+              transform: visible ? "translateY(0)" : "translateY(24px)",
+              transition: "opacity 0.6s cubic-bezier(0.16,1,0.3,1) 0.2s, transform 0.6s cubic-bezier(0.16,1,0.3,1) 0.2s",
+            }}
+          >
+            <span
+              style={{
+                fontFamily: INTER,
+                fontSize: "12px",
+                fontWeight: 600,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                color: "#6e6e73",
+                display: "block",
+                marginBottom: "12px",
+              }}
+            >
+              Who needs a different solution
+            </span>
+            <h3
+              style={{
+                fontFamily: INTER,
+                fontSize: "clamp(24px, 3vw, 36px)",
+                fontWeight: 600,
+                letterSpacing: "-0.02em",
+                color: "#1d1d1f",
+                marginBottom: "20px",
+                lineHeight: 1.1,
+              }}
+            >
+              We might not be<br />the right fit.
+            </h3>
+            <p
+              style={{
+                fontFamily: INTER,
+                fontSize: "15px",
+                color: "#6e6e73",
+                lineHeight: 1.6,
+                marginBottom: "24px",
+              }}
+            >
+              We're selective about who we work with so we can give every client the attention they deserve.
+            </p>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "10px" }}>
+              {NOT_FIT_ITEMS.map((item) => (
+                <li
+                  key={item}
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: "10px",
+                    fontFamily: INTER,
+                    fontSize: "15px",
+                    color: "#6e6e73",
+                    lineHeight: 1.5,
+                  }}
+                >
                   <span
-                    className="text-[#666666] text-sm leading-relaxed"
-                    style={{ fontFamily: "'DM Sans', sans-serif" }}
-                  >
-                    {trait}
-                  </span>
+                    style={{
+                      width: "5px",
+                      height: "5px",
+                      borderRadius: "50%",
+                      background: "rgba(0,0,0,0.2)",
+                      flexShrink: 0,
+                      marginTop: "8px",
+                    }}
+                  />
+                  {item}
                 </li>
               ))}
             </ul>

@@ -1,154 +1,91 @@
 /*
  * HIGH BUSINESS — Hero Section
- * Design: Full-bleed crossfading background images, centred overlay
- * Large logo centred in hero, fades in first
- * Headline word-by-word, then subheadline + CTAs
- * Navbar logo is always visible; hero logo is a separate large display element
+ * Design: Apple iMac product page style
+ * - Pure white background, centered text
+ * - Enormous display heading: #004225, word "Business" in #FFCC01
+ * - Soft mint (#f0f7f3) full-bleed visual band below text
+ * - No background images, no scroll indicator
+ * - Eyebrow: "High Business. Chartered Accountants." — 17px muted
+ * - CTA: green pill + ghost text link
+ * - Pricing line below CTAs
  */
 
 import { useEffect, useState } from "react";
 
-const HERO_IMAGES = [
-  "/manus-storage/barista_5d200a87.jpg",
-  "/manus-storage/electrician_01f740a8.jpg",
-  "/manus-storage/builder_45937731.jpg",
-  "/manus-storage/florist_d5a4327b.jpg",
-  "/manus-storage/retail_27695b96.jpg",
-  "/manus-storage/seamstress_9f623b2f.jpg",
-];
-
-const HEADLINE_WORDS = ["Helping", "Build", "Beautiful", "Business"];
+const INTER = "'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif";
 
 export default function HeroSection() {
-  const [currentImg, setCurrentImg] = useState(0);
-  const [nextImg, setNextImg] = useState(1);
-  const [transitioning, setTransitioning] = useState(false);
-  const [wordsVisible, setWordsVisible] = useState([false, false, false, false]);
-  const [subVisible, setSubVisible] = useState(false);
-  const [ctaVisible, setCtaVisible] = useState(false);
-  const [logoVisible, setLogoVisible] = useState(false);
-
-  // Preload all images
-  useEffect(() => {
-    HERO_IMAGES.forEach((src) => {
-      const img = new Image();
-      img.src = src;
-    });
-  }, []);
-
-  // Entrance animation sequence
-  useEffect(() => {
-    const timers = [
-      setTimeout(() => setLogoVisible(true), 300),
-      setTimeout(() => setWordsVisible([true, false, false, false]), 900),
-      setTimeout(() => setWordsVisible([true, true, false, false]), 1020),
-      setTimeout(() => setWordsVisible([true, true, true, false]), 1140),
-      setTimeout(() => setWordsVisible([true, true, true, true]), 1260),
-      setTimeout(() => setSubVisible(true), 1600),
-      setTimeout(() => setCtaVisible(true), 1800),
-    ];
-    return () => timers.forEach(clearTimeout);
-  }, []);
-
-  // Image crossfade cycle
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const next = (currentImg + 1) % HERO_IMAGES.length;
-      setNextImg(next);
-      setTransitioning(true);
-      setTimeout(() => {
-        setCurrentImg(next);
-        setTransitioning(false);
-      }, 1200);
-    }, 5500);
-    return () => clearInterval(interval);
-  }, [currentImg]);
-
-  const handleScroll = (href: string) => {
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setMounted(true), 80); return () => clearTimeout(t); }, []);
 
   return (
-    <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background images */}
-      <div className="absolute inset-0">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
+    <section
+      id="hero"
+      style={{
+        background: "#ffffff",
+        paddingTop: "52px", // navbar height offset
+      }}
+    >
+      {/* Text area — white background, centered */}
+      <div
+        style={{
+          textAlign: "center",
+          padding: "80px 20px 0",
+          maxWidth: "860px",
+          margin: "0 auto",
+          opacity: mounted ? 1 : 0,
+          transform: mounted ? "translateY(0)" : "translateY(20px)",
+          transition: "opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1)",
+        }}
+      >
+        {/* Eyebrow */}
+        <p
           style={{
-            backgroundImage: `url(${HERO_IMAGES[currentImg]})`,
-            opacity: transitioning ? 0 : 1,
-            transition: "opacity 1.2s ease-in-out",
-          }}
-        />
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: `url(${HERO_IMAGES[nextImg]})`,
-            opacity: transitioning ? 1 : 0,
-            transition: "opacity 1.2s ease-in-out",
-          }}
-        />
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/40 to-black/65" />
-      </div>
-
-      {/* Content */}
-      <div className="relative z-10 container text-center text-white pt-20">
-        {/* Large centred logo — hero display element */}
-        <div
-          id="hero-logo"
-          className="mb-10 flex justify-center"
-          style={{
-            opacity: logoVisible ? 1 : 0,
-            transform: logoVisible ? "translateY(0)" : "translateY(-12px)",
-            transition: "opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1)",
+            fontFamily: INTER,
+            fontSize: "17px",
+            fontWeight: 400,
+            color: "#6e6e73",
+            marginBottom: "16px",
           }}
         >
-          <img
-            src="/manus-storage/hb-white_f52ae710.webp"
-            alt="High Business"
-            className="w-auto"
-            style={{ height: "clamp(2.5rem, 6vw, 5rem)" }}
-          />
-        </div>
+          High Business. Chartered Accountants.
+        </p>
 
-        {/* Headline — word by word */}
+        {/* Main heading */}
         <h1
-          className="mb-6"
           style={{
-            fontFamily: "'Playfair Display', serif",
-            fontWeight: 700,
-            fontSize: "clamp(2.5rem, 7vw, 5rem)",
-            lineHeight: 1.1,
+            fontFamily: INTER,
+            fontSize: "clamp(52px, 9vw, 96px)",
+            fontWeight: 600,
+            letterSpacing: "-0.025em",
+            lineHeight: 1.04,
+            color: "#004225",
+            marginBottom: "24px",
           }}
         >
-          {HEADLINE_WORDS.map((word, i) => (
-            <span
-              key={word}
-              className="inline-block"
-              style={{
-                marginRight: "0.22em",
-                opacity: wordsVisible[i] ? 1 : 0,
-                transform: wordsVisible[i] ? "translateY(0)" : "translateY(20px)",
-                transition: "opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1)",
-              }}
-            >
-              {word}
-            </span>
-          ))}
+          Helping Build{" "}
+          <span
+            style={{
+              color: "#FFCC01",
+              WebkitTextStroke: "1.5px #c9a200",
+            }}
+          >
+            Beautiful
+          </span>
+          {" "}Business
         </h1>
 
-        {/* Subheadline */}
+        {/* Subheading */}
         <p
-          className="max-w-xl mx-auto mb-10"
           style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: "1.125rem",
-            color: "rgba(255,255,255,0.85)",
-            opacity: subVisible ? 1 : 0,
-            transform: subVisible ? "translateY(0)" : "translateY(16px)",
-            transition: "opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1)",
+            fontFamily: INTER,
+            fontSize: "19px",
+            fontWeight: 400,
+            color: "#6e6e73",
+            lineHeight: 1.5,
+            marginBottom: "36px",
+            maxWidth: "560px",
+            margin: "0 auto 36px",
           }}
         >
           Expert chartered accounting for visionary Australian businesses.
@@ -156,48 +93,123 @@ export default function HeroSection() {
 
         {/* CTAs */}
         <div
-          className="flex flex-col sm:flex-row gap-4 justify-center"
           style={{
-            opacity: ctaVisible ? 1 : 0,
-            transform: ctaVisible ? "translateY(0)" : "translateY(16px)",
-            transition: "opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "20px",
+            flexWrap: "wrap",
+            marginBottom: "16px",
           }}
         >
-          <button onClick={() => handleScroll("#contact")} className="btn-primary">
+          <a
+            href="#contact"
+            onClick={(e) => { e.preventDefault(); document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" }); }}
+            className="btn-primary"
+          >
             Get Started
-          </button>
-          <button onClick={() => handleScroll("#about")} className="btn-ghost">
-            Learn More
-          </button>
+          </a>
+          <a
+            href="#about"
+            onClick={(e) => { e.preventDefault(); document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" }); }}
+            className="btn-ghost"
+          >
+            Learn More &rsaquo;
+          </a>
         </div>
+
+        {/* Pricing line */}
+        <p
+          style={{
+            fontFamily: INTER,
+            fontSize: "13px",
+            color: "#6e6e73",
+            marginTop: "16px",
+            marginBottom: "56px",
+          }}
+        >
+          Fixed annual fee from $6,600 — no surprises, no hourly billing.
+        </p>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Soft mint visual band — full bleed */}
       <div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
         style={{
-          opacity: ctaVisible ? 0.6 : 0,
-          transition: "opacity 0.6s ease 0.5s",
+          width: "100%",
+          minHeight: "260px",
+          background: "#f0f7f3",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          overflow: "hidden",
         }}
       >
-        <div className="flex flex-col items-center gap-1.5 text-white">
-          <span
+        {/* Decorative abstract shape — subtle green gradient orb */}
+        <div
+          style={{
+            width: "100%",
+            maxWidth: "900px",
+            height: "260px",
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {/* Large soft circle */}
+          <div
             style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: "0.625rem",
-              letterSpacing: "0.15em",
+              position: "absolute",
+              width: "420px",
+              height: "420px",
+              borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(0,66,37,0.08) 0%, rgba(0,66,37,0) 70%)",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          />
+          {/* Gold accent orb */}
+          <div
+            style={{
+              position: "absolute",
+              width: "180px",
+              height: "180px",
+              borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(255,204,1,0.18) 0%, rgba(255,204,1,0) 70%)",
+              top: "30%",
+              left: "60%",
+              transform: "translate(-50%, -50%)",
+            }}
+          />
+          {/* Small green circle */}
+          <div
+            style={{
+              position: "absolute",
+              width: "120px",
+              height: "120px",
+              borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(0,66,37,0.12) 0%, rgba(0,66,37,0) 70%)",
+              top: "60%",
+              left: "35%",
+              transform: "translate(-50%, -50%)",
+            }}
+          />
+          {/* Tagline inside band */}
+          <p
+            style={{
+              fontFamily: INTER,
+              fontSize: "13px",
+              fontWeight: 500,
+              letterSpacing: "0.12em",
               textTransform: "uppercase",
+              color: "rgba(0,66,37,0.4)",
+              position: "relative",
+              zIndex: 1,
             }}
           >
-            Scroll
-          </span>
-          <svg width="16" height="24" viewBox="0 0 16 24" fill="none">
-            <rect x="1" y="1" width="14" height="22" rx="7" stroke="currentColor" strokeWidth="1.2" />
-            <rect x="7" y="5" width="2" height="5" rx="1" fill="currentColor">
-              <animate attributeName="y" values="5;10;5" dur="2s" repeatCount="indefinite" />
-              <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite" />
-            </rect>
-          </svg>
+            Chartered Accountants · Sydney, Australia
+          </p>
         </div>
       </div>
     </section>

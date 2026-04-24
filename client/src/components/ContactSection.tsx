@@ -1,13 +1,21 @@
 /*
  * HIGH BUSINESS — Contact Section
- * Design: Off-white background, 2-column layout
- * Left: contact form (white card)
- * Right: static map image + address details
- * 50vh min height
+ * Design: Apple dark chip section style
+ * - Background: #004225 (the one dark full-bleed section)
+ * - All text: white
+ * - Eyebrow: #FFCC01
+ * - Form fields: rgba(255,255,255,0.08) bg, 0.5px white/20 border, 12px radius
+ * - Submit button: #FFCC01 bg, #004225 text, 100px radius pill
+ * - Address/contact details: rgba(255,255,255,0.6)
+ * - Map + address same width as form (2-column grid)
+ * - Map grows to fill right column height
+ * - Header: left-justified
  */
 
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useState } from "react";
+
+const INTER = "'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif";
 
 export default function ContactSection() {
   const { ref, visible } = useScrollReveal();
@@ -20,71 +28,104 @@ export default function ContactSection() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Placeholder submission
     setSubmitted(true);
   };
 
   return (
     <section
       id="contact"
-      className="bg-[#F7F7F5]"
-      style={{ minHeight: "50vh", display: "flex", alignItems: "center" }}
+      style={{
+        background: "#004225",
+        padding: "80px 0",
+      }}
     >
-      <div className="container py-24 w-full">
+      <div className="container">
         {/* Header */}
         <div
           ref={ref}
-          className={`text-center mb-14 reveal ${visible ? "visible" : ""}`}
+          className={`reveal ${visible ? "visible" : ""}`}
+          style={{ marginBottom: "48px" }}
         >
-          <span className="eyebrow">Contact</span>
+          <span
+            className="eyebrow"
+            style={{ color: "#FFCC01", marginBottom: "16px" }}
+          >
+            Contact
+          </span>
           <h2
-            className="mt-4 text-4xl sm:text-5xl font-700 text-[#111111]"
-            style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}
+            style={{
+              fontFamily: INTER,
+              fontSize: "clamp(36px, 6vw, 64px)",
+              fontWeight: 600,
+              letterSpacing: "-0.022em",
+              color: "#ffffff",
+              lineHeight: 1.08,
+            }}
           >
             Where We Are
           </h2>
         </div>
 
-        {/* Two-column layout */}
+        {/* 2-column layout */}
         <div
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto"
+          className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch"
           style={{
             opacity: visible ? 1 : 0,
             transform: visible ? "translateY(0)" : "translateY(24px)",
-            transition: "opacity 0.55s cubic-bezier(0.16,1,0.3,1) 0.1s, transform 0.55s cubic-bezier(0.16,1,0.3,1) 0.1s",
+            transition: "opacity 0.6s cubic-bezier(0.16,1,0.3,1) 0.15s, transform 0.6s cubic-bezier(0.16,1,0.3,1) 0.15s",
           }}
         >
           {/* Left — Contact Form */}
-          <div className="bg-white rounded-2xl p-8 shadow-sm">
+          <div style={{ display: "flex", flexDirection: "column" }}>
             <h3
-              className="text-xl font-600 text-[#111111] mb-6"
-              style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600 }}
+              style={{
+                fontFamily: INTER,
+                fontSize: "20px",
+                fontWeight: 600,
+                color: "#ffffff",
+                marginBottom: "24px",
+              }}
             >
               Get Started
             </h3>
 
             {submitted ? (
-              <div className="flex flex-col items-center justify-center py-10 gap-4 text-center">
-                <div className="w-14 h-14 rounded-full bg-[#004225]/10 flex items-center justify-center">
-                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                    <path d="M6 14l5.5 5.5 10.5-11" stroke="#004225" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              <div
+                style={{
+                  flex: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "16px",
+                  textAlign: "center",
+                  padding: "40px 0",
+                }}
+              >
+                <div
+                  style={{
+                    width: "56px",
+                    height: "56px",
+                    borderRadius: "50%",
+                    background: "rgba(255,204,1,0.15)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 12l4.5 4.5 9.5-9" stroke="#FFCC01" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
-                <p
-                  className="text-[#004225] font-600 text-lg"
-                  style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600 }}
-                >
+                <p style={{ fontFamily: INTER, fontSize: "18px", fontWeight: 600, color: "#ffffff" }}>
                   Thanks — we'll be in touch soon.
                 </p>
-                <p
-                  className="text-[#666666] text-sm"
-                  style={{ fontFamily: "'DM Sans', sans-serif" }}
-                >
+                <p style={{ fontFamily: INTER, fontSize: "14px", color: "rgba(255,255,255,0.6)" }}>
                   A member of our team will reach out within one business day.
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "14px", flex: 1 }}>
                 {[
                   { name: "name", label: "Full Name", type: "text", placeholder: "Jane Smith" },
                   { name: "email", label: "Email", type: "email", placeholder: "jane@yourbusiness.com.au" },
@@ -93,8 +134,16 @@ export default function ContactSection() {
                   <div key={field.name}>
                     <label
                       htmlFor={field.name}
-                      className="block text-xs font-500 text-[#444444] mb-1.5 tracking-wide uppercase"
-                      style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: "0.6875rem", letterSpacing: "0.08em" }}
+                      style={{
+                        fontFamily: INTER,
+                        fontSize: "11px",
+                        fontWeight: 500,
+                        letterSpacing: "0.08em",
+                        textTransform: "uppercase",
+                        color: "rgba(255,255,255,0.45)",
+                        display: "block",
+                        marginBottom: "6px",
+                      }}
                     >
                       {field.label}
                     </label>
@@ -106,35 +155,56 @@ export default function ContactSection() {
                       value={form[field.name as keyof typeof form]}
                       onChange={handleChange}
                       required={field.name !== "mobile"}
-                      className="w-full px-4 py-3 rounded-xl border border-[#E5E5E3] bg-[#F9F9F7] text-[#111111] text-sm focus:outline-none focus:ring-2 focus:ring-[#004225]/30 focus:border-[#004225] transition-all duration-200"
-                      style={{ fontFamily: "'DM Sans', sans-serif" }}
+                      className="hb-input"
                     />
                   </div>
                 ))}
 
-                <div>
+                <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
                   <label
                     htmlFor="note"
-                    className="block text-xs font-500 text-[#444444] mb-1.5 tracking-wide uppercase"
-                    style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: "0.6875rem", letterSpacing: "0.08em" }}
+                    style={{
+                      fontFamily: INTER,
+                      fontSize: "11px",
+                      fontWeight: 500,
+                      letterSpacing: "0.08em",
+                      textTransform: "uppercase",
+                      color: "rgba(255,255,255,0.45)",
+                      display: "block",
+                      marginBottom: "6px",
+                    }}
                   >
                     Note
                   </label>
                   <textarea
                     id="note"
                     name="note"
-                    rows={3}
+                    rows={4}
                     placeholder="Tell us a little about your business..."
                     value={form.note}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl border border-[#E5E5E3] bg-[#F9F9F7] text-[#111111] text-sm focus:outline-none focus:ring-2 focus:ring-[#004225]/30 focus:border-[#004225] transition-all duration-200 resize-none"
-                    style={{ fontFamily: "'DM Sans', sans-serif" }}
+                    className="hb-input"
+                    style={{ resize: "none", flex: 1, minHeight: "80px" }}
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="btn-primary w-full mt-2"
+                  style={{
+                    background: "#FFCC01",
+                    color: "#004225",
+                    fontFamily: INTER,
+                    fontSize: "15px",
+                    fontWeight: 600,
+                    padding: "14px 32px",
+                    borderRadius: "100px",
+                    border: "none",
+                    cursor: "pointer",
+                    transition: "opacity 0.2s ease",
+                    marginTop: "4px",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.88")}
+                  onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
                 >
                   Send Message
                 </button>
@@ -142,16 +212,23 @@ export default function ContactSection() {
             )}
           </div>
 
-          {/* Right — Map + Details */}
-          <div className="flex flex-col gap-5">
-            {/* Static map */}
-            <div className="rounded-2xl overflow-hidden shadow-sm bg-[#E8EDE8]" style={{ height: "200px" }}>
+          {/* Right — Map + Address */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px", height: "100%" }}>
+            {/* Map — grows to fill */}
+            <div
+              style={{
+                flex: 1,
+                borderRadius: "24px",
+                overflow: "hidden",
+                minHeight: "200px",
+              }}
+            >
               <iframe
                 title="High Business Office Location"
                 width="100%"
                 height="100%"
                 frameBorder="0"
-                style={{ border: 0, filter: "saturate(0.7) contrast(1.05)" }}
+                style={{ border: 0, display: "block", minHeight: "200px", filter: "saturate(0.6) contrast(1.1) brightness(0.9)" }}
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3312.3!2d151.2082!3d-33.8645!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b12ae401a5c4e5b%3A0x5017d681632ccc0!2s1%20O'Connell%20St%2C%20Sydney%20NSW%202000%2C%20Australia!5e0!3m2!1sen!2sau!4v1714000000000!5m2!1sen!2sau"
                 allowFullScreen
                 loading="lazy"
@@ -159,58 +236,89 @@ export default function ContactSection() {
               />
             </div>
 
-            {/* Address & contact details */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm space-y-4">
-              <div>
+            {/* Address card */}
+            <div
+              style={{
+                background: "rgba(255,255,255,0.06)",
+                borderRadius: "24px",
+                padding: "24px 28px",
+                border: "0.5px solid rgba(255,255,255,0.1)",
+                flexShrink: 0,
+              }}
+            >
+              <div style={{ marginBottom: "16px" }}>
                 <span
-                  className="text-[0.6875rem] font-500 tracking-[0.1em] uppercase text-[#004225]/70 block mb-1"
-                  style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}
+                  style={{
+                    fontFamily: INTER,
+                    fontSize: "10px",
+                    fontWeight: 500,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    color: "rgba(255,255,255,0.4)",
+                    display: "block",
+                    marginBottom: "4px",
+                  }}
                 >
                   Address
                 </span>
-                <p
-                  className="text-[#333333] text-sm leading-relaxed"
-                  style={{ fontFamily: "'DM Sans', sans-serif" }}
-                >
-                  Level 15, 1 O'Connell Street<br />
-                  Sydney NSW 2000
+                <p style={{ fontFamily: INTER, fontSize: "14px", color: "rgba(255,255,255,0.6)", lineHeight: 1.5 }}>
+                  Level 15, 1 O'Connell Street<br />Sydney NSW 2000
                 </p>
               </div>
 
-              <div className="w-full h-px bg-[#E5E5E3]" />
+              <div
+                style={{ width: "100%", height: "0.5px", background: "rgba(255,255,255,0.1)", marginBottom: "16px" }}
+              />
 
-              <div>
-                <span
-                  className="text-[0.6875rem] font-500 tracking-[0.1em] uppercase text-[#004225]/70 block mb-1"
-                  style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}
-                >
-                  Phone
-                </span>
-                <a
-                  href="tel:0290556924"
-                  className="text-[#333333] text-sm hover:text-[#004225] transition-colors"
-                  style={{ fontFamily: "'DM Sans', sans-serif" }}
-                >
-                  02 9055 6924
-                </a>
-              </div>
-
-              <div className="w-full h-px bg-[#E5E5E3]" />
-
-              <div>
-                <span
-                  className="text-[0.6875rem] font-500 tracking-[0.1em] uppercase text-[#004225]/70 block mb-1"
-                  style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}
-                >
-                  Email
-                </span>
-                <a
-                  href="mailto:office@highbusiness.com.au"
-                  className="text-[#333333] text-sm hover:text-[#004225] transition-colors"
-                  style={{ fontFamily: "'DM Sans', sans-serif" }}
-                >
-                  office@highbusiness.com.au
-                </a>
+              <div style={{ display: "flex", gap: "32px", flexWrap: "wrap" }}>
+                <div>
+                  <span
+                    style={{
+                      fontFamily: INTER,
+                      fontSize: "10px",
+                      fontWeight: 500,
+                      letterSpacing: "0.12em",
+                      textTransform: "uppercase",
+                      color: "rgba(255,255,255,0.4)",
+                      display: "block",
+                      marginBottom: "4px",
+                    }}
+                  >
+                    Phone
+                  </span>
+                  <a
+                    href="tel:0290556924"
+                    style={{ fontFamily: INTER, fontSize: "14px", color: "rgba(255,255,255,0.6)", textDecoration: "none" }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = "#ffffff")}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.6)")}
+                  >
+                    02 9055 6924
+                  </a>
+                </div>
+                <div>
+                  <span
+                    style={{
+                      fontFamily: INTER,
+                      fontSize: "10px",
+                      fontWeight: 500,
+                      letterSpacing: "0.12em",
+                      textTransform: "uppercase",
+                      color: "rgba(255,255,255,0.4)",
+                      display: "block",
+                      marginBottom: "4px",
+                    }}
+                  >
+                    Email
+                  </span>
+                  <a
+                    href="mailto:office@highbusiness.com.au"
+                    style={{ fontFamily: INTER, fontSize: "14px", color: "rgba(255,255,255,0.6)", textDecoration: "none" }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = "#ffffff")}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.6)")}
+                  >
+                    office@highbusiness.com.au
+                  </a>
+                </div>
               </div>
             </div>
           </div>

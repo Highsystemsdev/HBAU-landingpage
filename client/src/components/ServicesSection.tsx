@@ -1,11 +1,20 @@
 /*
  * HIGH BUSINESS — Services Section
- * Design: White background, three cards in horizontal scroll on mobile
- * Cards: off-white on white, hover lift, no icons per brief
- * 50vh min height
+ * Design: Apple-style full-bleed rounded cards
+ * - Background: #ffffff
+ * - Cards: #f0f7f3 bg, 24px radius, 44px padding
+ * - 3-column grid on desktop, horizontal scroll on mobile
+ * - No numbering, no card shadows
+ * - Service name: 28px, 600, #004225
+ * - Description: 15px, #6e6e73
+ * - Tagline: 13px, 600, rgba(0,66,37,0.6)
+ * - Bullet dots: 5px green circles
+ * - Header: left-justified
  */
 
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+
+const INTER = "'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif";
 
 const SERVICES = [
   {
@@ -64,83 +73,157 @@ export default function ServicesSection() {
   return (
     <section
       id="services"
-      className="bg-white"
-      style={{ minHeight: "50vh", display: "flex", alignItems: "center" }}
+      style={{ background: "#ffffff", padding: "80px 0" }}
     >
-      <div className="container py-24 w-full">
+      <div className="container">
         {/* Header */}
         <div
           ref={ref}
-          className={`text-center mb-14 reveal ${visible ? "visible" : ""}`}
+          className={`reveal ${visible ? "visible" : ""}`}
+          style={{ marginBottom: "48px" }}
         >
-          <span className="eyebrow">Services</span>
-          <h2
-            className="mt-4 text-4xl sm:text-5xl font-700 text-[#111111]"
-            style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}
-          >
+          <span className="eyebrow" style={{ marginBottom: "16px" }}>Services</span>
+          <h2 className="section-heading">
             What We Do
           </h2>
         </div>
 
-        {/* Cards — horizontal scroll on mobile, grid on desktop */}
-        <div className="services-scroll md:grid md:grid-cols-3 md:gap-6 md:items-start">
+        {/* Desktop: 3-column grid | Mobile: horizontal scroll */}
+        <div
+          className="hidden md:grid md:grid-cols-3 gap-3"
+        >
+          {SERVICES.map((service, i) => (
+            <ServiceCard key={service.id} service={service} delay={i * 80} visible={visible} />
+          ))}
+        </div>
+
+        {/* Mobile: horizontal scroll */}
+        <div
+          className="md:hidden services-scroll"
+          style={{ paddingBottom: "1rem" }}
+        >
           {SERVICES.map((service, i) => (
             <div
               key={service.id}
-              className="bg-[#F7F7F5] rounded-2xl p-8 card-lift w-[80vw] sm:w-[70vw] md:w-auto"
-              style={{
-                opacity: visible ? 1 : 0,
-                transform: visible ? "translateY(0)" : "translateY(24px)",
-                transition: `opacity 0.55s cubic-bezier(0.16,1,0.3,1) ${i * 100}ms, transform 0.55s cubic-bezier(0.16,1,0.3,1) ${i * 100}ms`,
-              }}
+              style={{ width: "clamp(280px, 80vw, 360px)", flexShrink: 0 }}
             >
-              {/* Card number */}
-              <span
-                className="text-[#004225]/20 text-5xl font-700 leading-none select-none"
-                style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}
-              >
-                0{i + 1}
-              </span>
-
-              <h3
-                className="mt-3 mb-1 text-2xl font-600 text-[#111111]"
-                style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600 }}
-              >
-                {service.title}
-              </h3>
-
-              <p
-                className="text-[#004225] text-sm font-500 mb-3 italic"
-                style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}
-              >
-                {service.tagline}
-              </p>
-
-              <span className="gold-rule" />
-
-              <p
-                className="text-[#555555] text-sm leading-relaxed mb-5 mt-3"
-                style={{ fontFamily: "'DM Sans', sans-serif" }}
-              >
-                {service.description}
-              </p>
-
-              <ul className="space-y-2">
-                {service.items.map((item) => (
-                  <li
-                    key={item}
-                    className="flex items-start gap-2.5 text-[#444444] text-sm"
-                    style={{ fontFamily: "'DM Sans', sans-serif" }}
-                  >
-                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#004225] flex-shrink-0" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
+              <ServiceCard service={service} delay={i * 80} visible={visible} />
             </div>
           ))}
         </div>
       </div>
     </section>
+  );
+}
+
+function ServiceCard({
+  service,
+  delay,
+  visible,
+}: {
+  service: (typeof SERVICES)[0];
+  delay: number;
+  visible: boolean;
+}) {
+  return (
+    <div
+      style={{
+        background: "#f0f7f3",
+        borderRadius: "24px",
+        padding: "44px",
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(24px)",
+        transition: `opacity 0.6s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.6s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <h3
+        style={{
+          fontFamily: INTER,
+          fontSize: "28px",
+          fontWeight: 600,
+          color: "#004225",
+          letterSpacing: "-0.02em",
+          marginBottom: "6px",
+        }}
+      >
+        {service.title}
+      </h3>
+
+      <p
+        style={{
+          fontFamily: INTER,
+          fontSize: "13px",
+          fontWeight: 600,
+          letterSpacing: "0.06em",
+          color: "rgba(0,66,37,0.6)",
+          marginBottom: "16px",
+        }}
+      >
+        {service.tagline}
+      </p>
+
+      <div
+        style={{
+          width: "32px",
+          height: "0.5px",
+          background: "rgba(0,66,37,0.25)",
+          marginBottom: "16px",
+        }}
+      />
+
+      <p
+        style={{
+          fontFamily: INTER,
+          fontSize: "15px",
+          color: "#6e6e73",
+          lineHeight: 1.6,
+          marginBottom: "20px",
+        }}
+      >
+        {service.description}
+      </p>
+
+      <ul
+        style={{
+          listStyle: "none",
+          padding: 0,
+          margin: 0,
+          display: "flex",
+          flexDirection: "column",
+          gap: "8px",
+          flex: 1,
+        }}
+      >
+        {service.items.map((item) => (
+          <li
+            key={item}
+            style={{
+              display: "flex",
+              alignItems: "flex-start",
+              gap: "10px",
+              fontFamily: INTER,
+              fontSize: "14px",
+              color: "#444",
+              lineHeight: 1.5,
+            }}
+          >
+            <span
+              style={{
+                width: "5px",
+                height: "5px",
+                borderRadius: "50%",
+                background: "#004225",
+                flexShrink: 0,
+                marginTop: "7px",
+              }}
+            />
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

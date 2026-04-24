@@ -24,7 +24,7 @@ export default function CtaBanner() {
           <h2
             className="mt-6 mb-4 text-white"
             style={{
-              fontFamily: "'Playfair Display', serif",
+              fontFamily: "-apple-system, 'SF Pro Display', BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif",
               fontWeight: 700,
               fontSize: "clamp(1.75rem, 4vw, 2.75rem)",
               lineHeight: 1.2,
@@ -34,14 +34,14 @@ export default function CtaBanner() {
           </h2>
           <p
             className="text-white/70 mb-8 max-w-md mx-auto"
-            style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.0625rem" }}
+            style={{ fontFamily: "-apple-system, 'SF Pro Text', BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif", fontSize: "1.0625rem" }}
           >
             Let's talk about where you are and where you want to go.
           </p>
           <button
             onClick={handleScroll}
             style={{
-              fontFamily: "'DM Sans', sans-serif",
+              fontFamily: "-apple-system, 'SF Pro Text', BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif",
               fontWeight: 600,
               fontSize: "0.9375rem",
               letterSpacing: "0.02em",
